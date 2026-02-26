@@ -1,14 +1,37 @@
 import './App.css'
-import {Header} from "./components/Header/Header.tsx";
-import {Main} from "./components/Main/Main.tsx";
-import {Footer} from "./components/Footer/Footer.tsx";
+import {FullInput} from "./components/FullInput/FullInput.tsx";
+import {useState} from "react";
+
+type MessagesType = {
+    message: string;
+}
 
 function App() {
+
+    const [messages, setMessages] = useState<MessagesType[]>([
+        {message: 'message1'},
+        {message: 'message2'},
+        {message: 'message3'},
+    ]);
+
+    const addMessage = (message: string) => {
+        if ( message.trim().length >= 1 ) {
+            const newMessage = {message: message};
+            setMessages([newMessage, ...messages]);
+        }
+    };
+
     return (
         <>
-            <Header title={"Header"}/>
-            <Main title={"Cars"}/>
-            <Footer title={"Footer"}/>
+
+            <FullInput callBack={addMessage}/>
+
+            {messages.map((el, index) => {
+                return (
+                    <div key={index}>{el.message}</div>
+                )
+            })}
+
         </>
     )
 }
