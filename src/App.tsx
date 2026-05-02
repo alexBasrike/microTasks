@@ -1,46 +1,43 @@
 import styles from "./components/Site.module.css";
-import {PageOne} from "./components/pages/PageOne.tsx";
-import {PageTwo} from "./components/pages/PageTwo.tsx";
-import {PageThree} from "./components/pages/PageThree.tsx";
-import {Link, Navigate, NavLink, Route, Routes} from "react-router-dom";
-import {Error404} from "./components/pages/Error404.tsx";
+import {Adidas} from "./components/pages/Adidas.tsx";
+import {Puma} from "./components/pages/Puma.tsx";
+import {Abibas} from "./components/pages/Abibas.tsx";
+import {Navigate, NavLink, Route, Routes} from 'react-router-dom';
+import {Error404} from "./components/pages/Error404";
+import {S} from './components/pages/_styles';
+import {Model} from "./components/pages/Model.tsx";
 
-export const App = () => {
-    return (
-        <div>
+const PATH = {
+  ADIDAS: '/adidas',
+  PUMA: '/puma',
+  ABIBAS: '/abibas',
+} as const
 
-            <div className={styles.header}>
-                <h1>
-                    <Link to="/">
-                        HEADER
-                    </Link>
-                </h1>
-            </div>
-
-            <div className={styles.body}>
-                <div className={styles.nav}>
-                    <nav>
-                        <ul>
-                            <li><Link to="/page-one">PageOne</Link></li>
-                            <li><NavLink to="/page-two">PageTwo</NavLink></li>
-                            <li><Link to="/page-tree">PageThree</Link></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div className={styles.content}>
-                    <Routes>
-                        <Route path="/" element={<Navigate to="/page-one"/>}/>
-
-                        <Route path="/page-one" element={<PageOne/>}/>
-                        <Route path="/page-two" element={<PageTwo/>}/>
-                        <Route path="/page-tree" element={<PageThree/>}/>
-
-                        <Route path="/error404" element={<Error404/>}/>
-                        <Route path="/*" element={<Navigate to="/error404"/>}/>
-                    </Routes>
-                </div>
-            </div>
-            <div className={styles.footer}>abibas 2023</div>
+export const App = ()=> {
+  return (
+    <div>
+      <div className={styles.header}><h1>HEADER</h1></div>
+      <div className={styles.body}>
+        <div className={styles.nav}>
+          <S.NavWrapper><NavLink to={PATH.ADIDAS}>Adidas</NavLink></S.NavWrapper>
+          <S.NavWrapper><NavLink to={PATH.PUMA}>Puma</NavLink></S.NavWrapper>
+          <S.NavWrapper><NavLink to={PATH.ABIBAS}>Abibas</NavLink></S.NavWrapper>
         </div>
-    );
+        <div className={styles.content}>
+          <Routes>
+            <Route path={'/'} element={<Navigate to={'/page1'}/>}/>
+
+            <Route path={PATH.ADIDAS} element={<Adidas/>}/>
+            <Route path={PATH.PUMA} element={<Puma/>}/>
+            <Route path={PATH.ABIBAS} element={<Abibas/>}/>
+
+            <Route path={':brand/:id'} element={<Model/>}/>
+
+            <Route path={'/*'} element={<Error404/>}/>
+          </Routes>
+        </div>
+      </div>
+      <div className={styles.footer}>abibas 2023</div>
+    </div>
+  );
 }
